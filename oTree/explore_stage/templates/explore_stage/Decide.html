@@ -1,0 +1,149 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row" style="text-align: center;">
+    <div class="col-xs-12">
+      <h2>Sampling Stage</h2> 
+      <p>Please click on one of the options to learn its payoff.</p>   
+      </div>
+    </div>
+    
+    <div class="row">
+    {% for image in symbols %}
+      <div class="col-md-6" style="text-align: center;">
+        <div class="image-container">
+          <img src="{{ static image }}" width="200px" class="response-btn" index = {{ forloop.counter0 }} id="{{image}}" onclick="pick_response(this)">
+          <div class="payoff-text" index = {{ forloop.counter0 }} onclick="pick_response(this)"></div>
+        </div>
+      </div>
+    {% endfor %}
+
+    <input type="hidden" name="left_choice_count" id="left_choice_count" value="0"/>
+    <input type="hidden" name="right_choice_count" id="right_choice_count" value="0"/>
+    <input type="hidden" name="choice_history" id="choice_history" value=""/>
+    <input type="hidden" name="choice_time" id="choice_time" value=""/>
+    <input type="hidden" name="a_payoff_history" id="a_payoff_history" value=""/>
+    <input type="hidden" name="b_payoff_history" id="b_payoff_history" value=""/>
+    
+    <div id = "Hit_Space" style ="visibility: hidden;text-align: center; color: dodgerblue;">please hit Spacebar to continue</div>
+
+    <div class="row" style="padding-top: 2em;">
+      <div class="col-md-12">
+        <div style="text-align: center;"><button class="btn btn-primary">Stop exploring</button></div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-4"><p></p></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+</div>
+
+<script>
+  // change text and size of next button
+
+
+  // find all buttons we defined
+  var buttons = document.getElementsByClassName("response-btn");
+  var payoff_text = document.getElementsByClassName("payoff-text");
+
+  // outcome settings in left - right order
+  var outcomes = {{outcomes}};
+  var payoff = [{{payoff_a}}, {{payoff_b}}];
+  var probability = [{{probability_a}}, {{probability_b}}];
+  var payoff_input = [document.getElementById('a_payoff_history'), document.getElementById('b_payoff_history')];
+  if (outcomes[0] == "b") {
+    payoff.reverse();
+    probability.reverse();
+    payoff_input.reverse();
+  }
+  
+  // inputs that we need to set
+  var count_inputs = [document.getElementById('left_choice_count'), document.getElementById('right_choice_count')];
+  var history_input = document.getElementById('choice_history');
+  var time_input = document.getElementById('choice_time');
+  
+
+  // servivce variables
+  var click_counts = [0, 0];
+  var button_side = ["l", "r"];
+  var start_time = new Date().getTime();
+  var feedback = false; // whether it is feedback time (no further clicks are allowed)
+
+
+  function reset_buttons() {
+    // remove "response-btn-selected" from all buttons
+    for(var iB = 0; iB < buttons.length; iB++){
+      buttons[iB].classList.remove("response-btn-selected");
+    }
+  }
+
+  function end_feedback() {
+    // end feedback freeze stage
+    reset_buttons();
+    const button = document.getElementById("Hit_Space");
+        button.style.visibility = "visible";
+  }
+
+  document.addEventListener("keydown", spacekey_pressed, false);
+  function spacekey_pressed(e){
+    if (e.code == "Space") {
+      e.preventDefault();
+      for(var iB = 0; iB < buttons.length; iB++){
+        payoff_text[iB].innerHTML = "";
+      }
+      feedback = false;
+      const button = document.getElementById("Hit_Space");
+        button.style.visibility = "hidden";
+    }
+  };
+
+
+
+  function compute_payoff(){
+     var current_payoff = [];
+     for(var i = 0; i < outcomes.length; i++){
+       if (Math.random() < probability[i]) {
+         current_payoff[i] = payoff[i][0];
+       } 
+       else {
+        current_payoff[i] = payoff[i][1];
+       }
+     }
+     return current_payoff;
+  }
+
+  function pick_response(element) {
+    var ibutton = element.getAttribute('index');
+    btn = buttons[ibutton];
+    
+    // too soon!
+    if (feedback) return;
+
+    // add it to the selected button
+    btn.classList.add("response-btn-selected");
+
+    // compute payoffs
+    current_payoff = compute_payoff();
+    payoff_text[ibutton].innerHTML = current_payoff[ibutton];
+
+    // update logs
+    click_counts[ibutton] += 1;
+    count_inputs[ibutton].value = click_counts[ibutton];
+    history_input.value = history_input.value + button_side[ibutton];
+    time_input.value = time_input.value + " " + (new Date().getTime() - start_time);
+    for(var iB = 0; iB < outcomes.length; iB++) {
+      payoff_input[iB].value = payoff_input[iB].value + " " + current_payoff[iB];
+    }
+
+    // feedback time!
+    feedback = true;
+    window.setTimeout(end_feedback, 300);
+  }
+</script>
+
+{% endblock %}

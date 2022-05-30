@@ -1,0 +1,58 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2> Thank you for choosing to take this task.</h2>
+                <p>
+                    This is an academic study of the Technion University, in which we examine how people make decisions.
+                    There are no known risks or benefits from participating in this study. It will take about 15 minutes
+                    to complete the task.
+                </p>
+                <p>
+                    There are no risks involved with participation in this study. The data collected will be used for
+                    research purposes only.
+                    Your participation is completely voluntary, and you are free to withdraw at any time.
+                    However, if you decide to terminate your participation before the end of the study, you will not be
+                    compensated.
+                    We will not analyze any information that can identify you personally,
+                    and any information you provide will remain anonymous and will be reported only on the aggregate
+                    level.
+                </p>
+                <p>
+                    The instructions for the task, and the rules for the bonus payment will appear on the next screen.
+                    Read them carefully and make sure you understand the "rules of the game."
+                    Among other things, your bonus payment will depend on your understanding of these instructions.
+                    A failure to read the instructions may result in you not being able to complete the task.
+                </p>
+                <p>
+                <b>Important!</b> To get the Prolific completion code, as well as your base payment and bonus, you will have to complete the task without breaks. 
+                In case of lengthy idle time, the task will automatically stop, and you will not be able to take it again.
+                 This task cannot be taken from a mobile device. 
+                </p>
+                 <p>
+                    If you have any questions concerning this task, please email to Kinneret Teodorescu at kinnerett@technion.ac.il 
+                </p>
+                <p>If you agree to these terms, check the CONSENT button otherwise you cannot start the task. If you want to exit, just close the browser or tab.
+                </p>
+                </div>
+    {% comment %} Information option button {% endcomment %}
+    <!-- <span class="list-item">
+        <label>
+          <input type="checkbox" name="consent" value="yes">&nbsp;I consent to participate in the study and agree to the collection, storage, and use of my data as described above.
+        </label>
+      </span> -->
+      {{ formfields }}
+     <div class="row">
+        <div class="col-xs-12 col-md-4">
+            <button class="btn btn-primary" name="continue_button" value="True">Start task</button>
+            <p></p>
+        </div>
+    </div>
+
+            {% endblock %}

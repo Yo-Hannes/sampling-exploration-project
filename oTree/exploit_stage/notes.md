@@ -1,0 +1,2 @@
+- what about negative balance due to information cost and switching cost?
+- issues are on the issue list

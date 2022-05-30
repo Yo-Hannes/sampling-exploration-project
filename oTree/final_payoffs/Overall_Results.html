@@ -1,0 +1,34 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+<style>
+.otree-timer {
+  display: none;
+}
+</style>
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Overall Results</h2> 
+    </div>
+  </div>
+  <div class="row">
+    </div>
+    {% comment %} Displaying Payoff {% endcomment %}
+
+    <div class="col-md-12" align = center>
+      
+      {% comment %} Displaying Payoff {% endcomment %}
+    
+      <p> Your Payoff over all decisions: {{overall_payoff}} </p>
+     
+    </div>
+      
+    </div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+  <div class="col-xs-12">
+    <h2>We kindly ask for your conset to participate</h2> 
+    <p>
+        Title of the research project: ??????????????
+        Name of the researcher: Johannes Leder, Department of Psychology, University of Bamberg, Germany and ??????.
+    </p>
+    <p>
+        Description of the research: ???????.
+        Description of human subject involvement: If you decide to participate, you will be asked to complete a couple of decison tasks.
+        The study will take approximately 15 minutes to complete.
+    </p>
+    <p>
+        Principal Investigator Contact Information: Johannes Leder , Dr., Johannes.leder@uni-bamberg.de
+    </p>
+    <p>
+        IRB Contact Information: If you have questions about your rights as a research participant, or wish to obtain information, ask questions or discuss any concerns about this study with someone other than the researcher(s), please contact the Ethikrat at the University of Bamberg (https://www.uni-bamberg.de/gremien/senat-kommissionen/kommissionen/ethikrat/).
+        Voluntary nature of participation: Your participation in this project is voluntary. Even after you sign the informed consent document, you may decide to leave the study at any time.
+    </p>
+    <p>
+        Documentation: If you need a copy of this consent form, you may print out this page or you may email the PI of the study, Johannes Leder, at Johannes.leder@uni-bamberg.de for a copy.
+    </p>   
+  </div>
+    <p>Risks & discomforts of participation: This study involves no risk. There are no known harms or discomforts associated with this study beyond those encountered in normal daily life.
+        Measures to be taken to minimize risks and discomforts: In the unlikely event that you experience any discomfort during any part of the research study, please contact one of the research coordinators.
+        Expected benefits to subjects or to others: Although you may not receive direct benefit from your participation, others may ultimately benefit from the knowledge obtained in this study.
+        Costs to subject resulting from participation in the study: There are no costs associated with participation in this study.
+        Payments to subject for participation in the study: You will receive ???? for participating through ????.
+        Confidentiality of records/data: You will not be identified in any reports on this study. Records will be kept confidential to the extent provided by federal, state, and local law. However, the Institutional Review Board, the sponsor of the study (i.e. NIH, FDA, etc.), or university and government officials responsible for monitoring this study may inspect these records.
+    </p>
+</div>
+{% comment %} Information option button {% endcomment %}
+      <input  type = "checkbox" name="consent" value="yes"> I hereby state that I have read the information above and agree to participate in the study</input>
+<div class="row">
+  <div class="col-xs-12 col-md-4">
+      <button class = "btn btn-primary" name="continue_button" value="True">Continue</button>
+    <p></p>
+    
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h2 {text-align: center}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: center;    
+}
+</style>
+</head>
+<body>
+
+<h2>Sampling Stage</h2>
+<p>Please click on one of the options to learn its payoff</p>
+
+<table style="width:100%">
+  <tr>
+    <td colspan="5">Sampling</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td rowspan = 2  bgcolor="lightblue"></td>
+    <td rowspan = 2 ></td>
+    <td rowspan = 2  bgcolor="lightblue"></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+    <tr>
+    <td></td>
+    <td><button name="choice_a" value="True">Explore this</button></td>
+    <td></td>
+    <td><button name="choice_a" value="False">Explore this</button></td>
+    <td></td>
+  </tr>
+</table>
+
+</body>
+</html>
+
+
+{% endblock %}

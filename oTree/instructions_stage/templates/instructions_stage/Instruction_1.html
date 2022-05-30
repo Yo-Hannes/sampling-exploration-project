@@ -1,0 +1,38 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+    <h2>Instruction</h2> 
+    <p>
+      In this task you will have to decide between two buttons shown below. Each button provides different outcomes. 
+      During the task, you will be able to check the outcomes by clicking on the buttons.  
+    </p>
+<div class="container">
+  <div class="row" style="text-align: center;">   
+    <div class="row">
+    {% for image in symbols %}
+      <div class="col-md-6" style="text-align: center;">
+        <div class="image-container">
+          <img src="{{ static image }}" width="200px" class="response-btn" index = {{ forloop.counter0 }} id="{{image}}" onclick="pick_response(this)">
+          <div class="payoff-text" index = {{ forloop.counter0 }} onclick="pick_response(this)"></div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+    The task has <strong>two stages</strong>. You will first get to know the outcomes of the buttons in the <strong>sampling stage</strong>. When you think
+    you learnt enough about the outcomes and feel ready, you will be able to terminate the sampling stage. Then in the
+    second stage, the <strong>decision stage</strong>, you will be asked to choose between the same buttons repeatedly for many trials. The
+    outcomes you get in the decision stage will determine your bonus payment. We will now provide you with more details
+    about the stages of the task. Afterwards, we will ask you some questions to make sure the instructions were understood. 
+    Please continue by clicking the next button.
+    </p>   
+  </div>
+</div>
+{{ next_button }}
+{% endblock %}
