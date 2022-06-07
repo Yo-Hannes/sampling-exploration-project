@@ -105,63 +105,6 @@ def display_final_decision(player):
 
 ## PAGES ####
 
-class Consent(Page):
-    form_model = 'player'
-    form_fields = ['consent', 'continue_button']
-    @staticmethod
-    def is_displayed(player):
-       return player.round_number == 1
-    
-    def vars_for_template(player):
-        return dict(consent = player.consent, continue_button = player.continue_button)
-
-
-class Instruction(Page):
-    @staticmethod
-    def is_displayed(player):
-       return player.round_number == 1 and player.consent == "yes" and player.continue_button == True
-       
-    def vars_for_template(player):
-        return dict(information_cost = player.session.config['information_cost'], 
-        switching_cost = player.session.config['switching_cost'],
-        previous_choice = None)
-
-class Instructions_Option1(Page):
-    @staticmethod
-    def is_displayed(player):
-       #return player.round_number == 1
-       return player.round_number == 1 and player.consent == "yes" and player.continue_button == True
-
-       
-    def vars_for_template(player):
-        return dict(information_cost = player.session.config['information_cost'], 
-        switching_cost = player.session.config['switching_cost'],
-        previous_choice = None)
-
-class Instructions_Option2(Page):
-    @staticmethod
-    def is_displayed(player):
-       #return player.round_number == 1
-        return player.round_number == 1 and player.consent == "yes" and player.continue_button == True
-
-       
-    def vars_for_template(player):
-        return dict(information_cost = player.session.config['information_cost'], 
-        switching_cost = player.session.config['switching_cost'],
-        previous_choice = None)
-
-class Instructions_Done_sampling(Page):
-    @staticmethod
-    def is_displayed(player):
-        return player.round_number == 1 and player.consent == "yes" and player.continue_button == True
-
-       #return player.round_number == 1
-       
-    def vars_for_template(player):
-        return dict(information_cost = player.session.config['information_cost'], 
-        switching_cost = player.session.config['switching_cost'],
-        previous_choice = None)
-
 
 class Decide(Page):
     form_model = 'player'
