@@ -16,7 +16,13 @@ SESSION_CONFIGS = [
         name='Explore_exploit',
         display_name="test_all",
         num_demo_participants=1,
-        app_sequence=['instructions_stage', 'comprehension_stage', 'explore_stage', 'exploit_stage','final_payoffs'],
+        app_sequence=[
+         'instructions_stage',
+         'comprehension_stage',
+         'explore_stage',
+         'exploit_stage',
+         'final_payoffs'
+         ],
         switching_cost = 5,
         information_cost = 5,
         probability_win_a = 1.00,
