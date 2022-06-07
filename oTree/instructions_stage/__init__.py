@@ -211,8 +211,9 @@ class Instruction_3(Page):
 
         return template_vars
 
-page_sequence = [Consent, Instruction_1, Instruction_2,Instruction_3
-                 # Instructions_Option1,
-                 # Instructions_Option2,
-                 # Instructions_Done_sampling
+page_sequence = [
+    Consent, 
+    Instruction_1, 
+    Instruction_2,
+    Instruction_3
                  ]
