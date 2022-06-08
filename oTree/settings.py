@@ -31,6 +31,7 @@ SESSION_CONFIGS = [
         payoff_low_a = 2,
         payoff_high_b = 2,
         payoff_low_b = 2,
+        switching_after_round = 2,
         doc="""
     Edit the 'switching cost' and 'information cost' parameter to change the cost of information and switching
     """
