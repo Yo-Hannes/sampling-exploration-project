@@ -34,13 +34,22 @@ class Player(BasePlayer):
     age = models.IntegerField()
     # (initial=False, blank= False)
     consent = models.BooleanField(
-        label="Do you conset to this and want to participate?")
+    label="Do you conset to this and want to participate?")
     continue_button = models.BooleanField(initial=False, blank=True)
-        # decisions
+    
+    # decisions
     choice = models.StringField(initial="non", blank=True)
     information_cost_round = models.CurrencyField(initial = 0) # 0 - did not, 5 - did pick
     switching_cost_round = models.CurrencyField(initial = 0)
-    
+
+    # symbols
+    symbol_on_button_left = models.StringField(initial="non", blank=True)
+    symbol_on_button_right = models.StringField(initial="non", blank=True)
+
+    # outcome
+    outcome_on_button_left  = models.StringField(initial="non", blank=True)
+    outcome_on_button_right = models.StringField(initial="non", blank=True)
+
     # payoff tracker 
     trial_payoff = models.CurrencyField(initial = 0)
     payout_left = models.CurrencyField(initial = 0)
