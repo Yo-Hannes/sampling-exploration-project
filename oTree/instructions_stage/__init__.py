@@ -100,10 +100,10 @@ def determine_outcome_shown(player):
     player.outcome_a = Currency(outcome_list_a[0])
     player.outcome_b = Currency(outcome_list_b[0])
 
-    if player.choice_a == "b":
+    if player.choice == "b":
         player.outcome_b = player.outcome_b
         player.trial_payoff = player.outcome_b
-    elif player.choice_a == "a":
+    elif player.choice == "a":
         player.outcome_a = player.outcome_a
         player.trial_payoff = player.outcome_a
     else:
@@ -152,7 +152,7 @@ class Consent(Page):
 
 class Instruction_1(Page):
     form_model = 'player'
-    form_fields = ['choice_a']
+    form_fields = ['choice']
     @staticmethod
     def is_displayed(player):
         # and player.consent == "yes" and player.continue_button == True
@@ -173,7 +173,7 @@ class Instruction_1(Page):
 
 class Instruction_2(Page):
     form_model = 'player'
-    form_fields = ['choice_a']
+    form_fields = ['choice']
     @staticmethod
     def is_displayed(player):
         # and player.consent == "yes" and player.continue_button == True
