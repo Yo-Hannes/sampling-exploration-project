@@ -42,6 +42,7 @@ class Player(BasePlayer):
     information_cost_round = models.CurrencyField(initial = 0) # 0 - did not, 5 - did pick
     switching_cost_round = models.CurrencyField(initial = 0)
 
+
     # symbols
     symbol_on_button_left = models.StringField(initial="non", blank=True)
     symbol_on_button_right = models.StringField(initial="non", blank=True)
@@ -195,6 +196,7 @@ class Instruction_2(Page):
 class Instruction_3(Page):
     form_model = 'player'
     form_fields = [
+        'continue_button',
         'choice',
         'information_cost_round',
         'switching_cost_round',
@@ -204,10 +206,6 @@ class Instruction_3(Page):
 
 
     @staticmethod
- #   def is_displayed(player):
-        # and player.consent == "yes" and player.continue_button == True
- #       return player.round_number > 1
-
     def vars_for_template(player):
         template_vars = {
             "symbols": player.participant.vars["symbols"],
@@ -223,9 +221,15 @@ class Instruction_3(Page):
         }
 
         return template_vars
+    @staticmethod    
     def before_next_page(player, timeout_happened):
         print()
         player.participant.vars["previous_choice"] = player.choice
+    @staticmethod
+    def app_after_this_page(player, upcoming_apps):
+        print('upcoming app is', upcoming_apps)
+        if player.continue_button: 
+            return "comprehension_stage"
 
 page_sequence = [
     Consent, 
