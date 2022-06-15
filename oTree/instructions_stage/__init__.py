@@ -163,9 +163,9 @@ class Instruction_1(Page):
         template_vars = {
             "symbols": player.participant.vars["symbols"],
             "outcomes": player.participant.vars["outcomes"],
-            "payoff_a": [player.session.config['payoff_high_a'], player.session.config['payoff_low_a']],
+            "payoff_a": [3, 1],
             "probability_a": player.session.config['probability_win_a'],
-            "payoff_b": [player.session.config['payoff_high_b'], player.session.config['payoff_low_b']],
+            "payoff_b": [4, 5],
             "probability_b": player.session.config['probability_win_b']
         }
 
@@ -210,9 +210,9 @@ class Instruction_3(Page):
         template_vars = {
             "symbols": player.participant.vars["symbols"],
             "outcomes": player.participant.vars["outcomes"],
-            "payoff_a": [player.session.config['payoff_high_a'], player.session.config['payoff_low_a']],
+            "payoff_a": [3,1],
             "probability_a": player.session.config['probability_win_a'],
-            "payoff_b": [player.session.config['payoff_high_b'], player.session.config['payoff_low_b']],
+            "payoff_b": [4, 2],
             "probability_b": player.session.config['probability_win_b'],
             "information_cost" : player.session.config['information_cost'],
             "switching_cost" : player.session.config['switching_cost'],
