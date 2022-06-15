@@ -23,14 +23,15 @@ SESSION_CONFIGS = [
          'exploit_stage',
          'final_payoffs'
          ],
-        switching_cost = 5,
-        information_cost = 5,
-        probability_win_a = 1.00,
-        probability_win_b = 1.00,
-        payoff_high_a = 1,
-        payoff_low_a = 2,
-        payoff_high_b = 2,
-        payoff_low_b = 2,
+        switching_cost = 9,
+        information_cost = 1,
+        probability_win_a = .8,
+        probability_win_b = .6,
+        payoff_high_a = 10,
+        payoff_low_a = -10,
+        payoff_high_b = 10,
+        payoff_low_b = -10,
+        switching_after_round = 50,
         doc="""
     Edit the 'switching cost' and 'information cost' parameter to change the cost of information and switching
     """

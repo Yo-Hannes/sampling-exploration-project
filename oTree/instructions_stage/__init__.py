@@ -18,7 +18,7 @@ A and B, but this comes at an additional cost (SWC = switchting cost)
 class Constants(BaseConstants):
     name_in_url = 'instructions_stage'
     players_per_group = None
-    num_rounds = 4
+    num_rounds = 20
 
 
 class Subsession(BaseSubsession):
@@ -34,27 +34,27 @@ class Player(BasePlayer):
     age = models.IntegerField()
     # (initial=False, blank= False)
     consent = models.BooleanField(
-        label="Do you conset to this and want to participate?")
+    label="Do you conset to this and want to participate?")
     continue_button = models.BooleanField(initial=False, blank=True)
-    number_exploration = models.IntegerField(initial=0)
-    choice_a = models.StringField(initial="non", blank=True)
-    # added this to try sth
-    final_choice = models.StringField(initial="non", blank=True)
-    outcome_a = models.CurrencyField(initial=0)
-    outcome_b = models.CurrencyField(initial=0)
-    explore_stop = models.BooleanField(initial=False, blank=True)
-    information_choice_a = models.BooleanField(
-        initial=False)  # only relevant for exploitation stage
-    information_choice_b = models.BooleanField(
-        initial=False)  # only relevant for exploitation stage
-    trial_payoff = models.CurrencyField(initial=1)
-    total_payoff = models.CurrencyField(initial=0)
-    symbol_on_button_left = models.StringField(initial="")
-    symbol_on_button_right = models.StringField(initial="")
-    outcome_on_button_left = models.StringField(initial="")
-    outcome_on_button_right = models.StringField(initial="")
-   # good_to_go = models.StringField(initial="non", blank=True)
+    
+    # decisions
+    choice = models.StringField(initial="non", blank=True)
+    information_cost_round = models.CurrencyField(initial = 0) # 0 - did not, 5 - did pick
+    switching_cost_round = models.CurrencyField(initial = 0)
 
+
+    # symbols
+    symbol_on_button_left = models.StringField(initial="non", blank=True)
+    symbol_on_button_right = models.StringField(initial="non", blank=True)
+
+    # outcome
+    outcome_on_button_left  = models.StringField(initial="non", blank=True)
+    outcome_on_button_right = models.StringField(initial="non", blank=True)
+
+    # payoff tracker 
+    trial_payoff = models.CurrencyField(initial = 0)
+    payout_left = models.CurrencyField(initial = 0)
+    payout_right = models.CurrencyField(initial = 0)
 
 ###### Functions ###################
 
@@ -76,6 +76,11 @@ def creating_session(subsession):
         player.participant.vars["outcomes"] = outcomes[:]
         player.participant.vars["outcomes_instructions"] = outcomes[:]
 
+        if subsession.round_number == 1:
+            for player in subsession.get_players():
+                player.participant.vars["total_payoff"] = 0
+                player.participant.vars["previous_choice"] = ""
+
 
 def determine_outcome_shown(player):
     outcome_list_a = random.choices(
@@ -96,10 +101,10 @@ def determine_outcome_shown(player):
     player.outcome_a = Currency(outcome_list_a[0])
     player.outcome_b = Currency(outcome_list_b[0])
 
-    if player.choice_a == "b":
+    if player.choice == "b":
         player.outcome_b = player.outcome_b
         player.trial_payoff = player.outcome_b
-    elif player.choice_a == "a":
+    elif player.choice == "a":
         player.outcome_a = player.outcome_a
         player.trial_payoff = player.outcome_a
     else:
@@ -148,7 +153,7 @@ class Consent(Page):
 
 class Instruction_1(Page):
     form_model = 'player'
-    form_fields = ['choice_a']
+    form_fields = ['choice']
     @staticmethod
     def is_displayed(player):
         # and player.consent == "yes" and player.continue_button == True
@@ -158,9 +163,9 @@ class Instruction_1(Page):
         template_vars = {
             "symbols": player.participant.vars["symbols"],
             "outcomes": player.participant.vars["outcomes"],
-            "payoff_a": [player.session.config['payoff_high_a'], player.session.config['payoff_low_a']],
+            "payoff_a": [3, 1],
             "probability_a": player.session.config['probability_win_a'],
-            "payoff_b": [player.session.config['payoff_high_b'], player.session.config['payoff_low_b']],
+            "payoff_b": [4, 5],
             "probability_b": player.session.config['probability_win_b']
         }
 
@@ -169,7 +174,7 @@ class Instruction_1(Page):
 
 class Instruction_2(Page):
     form_model = 'player'
-    form_fields = ['choice_a']
+    form_fields = ['choice']
     @staticmethod
     def is_displayed(player):
         # and player.consent == "yes" and player.continue_button == True
@@ -190,26 +195,41 @@ class Instruction_2(Page):
 
 class Instruction_3(Page):
     form_model = 'player'
-    form_fields = ['choice_a']
-    @staticmethod
-    def is_displayed(player):
-        # and player.consent == "yes" and player.continue_button == True
-        return player.round_number == 1
+    form_fields = [
+        'continue_button',
+        'choice',
+        'information_cost_round',
+        'switching_cost_round',
+        'trial_payoff',
+        'payout_left',
+        'payout_right']
 
+
+    @staticmethod
     def vars_for_template(player):
         template_vars = {
             "symbols": player.participant.vars["symbols"],
             "outcomes": player.participant.vars["outcomes"],
-            "payoff_a": [player.session.config['payoff_high_a'], player.session.config['payoff_low_a']],
+            "payoff_a": [3,1],
             "probability_a": player.session.config['probability_win_a'],
-            "payoff_b": [player.session.config['payoff_high_b'], player.session.config['payoff_low_b']],
+            "payoff_b": [4, 2],
             "probability_b": player.session.config['probability_win_b'],
             "information_cost" : player.session.config['information_cost'],
             "switching_cost" : player.session.config['switching_cost'],
-            "round":1
+            "previous_choice" : player.participant.vars["previous_choice"],
+            "round": player.round_number
         }
 
         return template_vars
+    @staticmethod    
+    def before_next_page(player, timeout_happened):
+        print()
+        player.participant.vars["previous_choice"] = player.choice
+    @staticmethod
+    def app_after_this_page(player, upcoming_apps):
+        print('upcoming app is', upcoming_apps)
+        if player.continue_button: 
+            return "comprehension_stage"
 
 page_sequence = [
     Consent, 
