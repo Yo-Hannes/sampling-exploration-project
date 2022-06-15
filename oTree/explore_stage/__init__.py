@@ -36,6 +36,10 @@ class Player(BasePlayer):
     consent = models.StringField(initial="non", blank=True)
     continue_button = models.BooleanField(initial=False, blank=True)
     number_exploration = models.IntegerField(initial=0)
+    symbol_on_button_left = models.StringField(initial="non", blank=True)
+    symbol_on_button_right = models.StringField(initial="non", blank=True)
+    outcome_on_button_left = models.StringField(initial="non", blank=True)
+    outcome_on_button_right = models.StringField(initial="non", blank=True)
 
     # sampling stage responses 
     left_choice_count = models.IntegerField(initial=0, blank=False)
@@ -59,6 +63,28 @@ class Player(BasePlayer):
 
 ###### Functions ###################
 
+def creating_session(subsession):
+    import random
+    for player in subsession.get_players():
+        # randomly assign symbols to buttons
+        symbols = ['Triangle.png','Star.png','Square.png','Circle.png']
+        random.shuffle(symbols)
+        player.symbol_on_button_left = symbols[0]
+        player.symbol_on_button_right = symbols[1]
+        player.participant.vars["symbols_real"] = symbols[0:2]
+
+        # randomly assign outcomes to buttons
+        outcomes = ["a", "b"]
+        random.shuffle(outcomes)
+        player.outcome_on_button_left = outcomes[0]
+        player.outcome_on_button_right = outcomes[1]
+        player.participant.vars["outcomes"] = outcomes[:]
+        player.participant.vars["outcomes_instructions"] = outcomes[:]
+
+        if subsession.round_number == 1:
+            for player in subsession.get_players():
+                player.participant.vars["total_payoff"] = 0
+                player.participant.vars["previous_choice"] = ""
 
 def determine_outcome_shown(player):
 
@@ -113,7 +139,7 @@ class Decide(Page):
 
     def vars_for_template(player):
         template_vars = {
-            "symbols" : player.participant.vars["symbols"],
+            "symbols" : player.participant.vars["symbols_real"],
             "outcomes" : player.participant.vars["outcomes"],
             "payoff_a"  : [player.session.config['payoff_high_a'], player.session.config['payoff_low_a']],
             "probability_a" : player.session.config['probability_win_a'],
