@@ -18,7 +18,7 @@ A and B, but this comes at an additional cost (SWC = switchting cost)
 class Constants(BaseConstants):
     name_in_url = 'instructions_stage'
     players_per_group = None
-    num_rounds = 4
+    num_rounds = 20
 
 
 class Subsession(BaseSubsession):
