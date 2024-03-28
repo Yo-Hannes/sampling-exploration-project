@@ -32,6 +32,7 @@ SESSION_CONFIGS = [
         payoff_high_b = 10,
         payoff_low_b = -10,
         switching_after_round = 50,
+        total_trials = 100,
         doc="""
     Edit the 'switching cost' and 'information cost' parameter to change the cost of information and switching
     """
@@ -90,6 +91,7 @@ SESSION_CONFIGS = [
         payoff_low_a = 2,
         payoff_high_b = 2,
         payoff_low_b = 2,
+        total_trials = 100,
         doc="""
     Edit the 'switching cost' and 'information cost' parameter to change the cost of information and switching
     """
